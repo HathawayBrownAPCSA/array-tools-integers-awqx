@@ -1,0 +1,10 @@
+Looks good at first ... but there are problems with all four of your Min/Max methods.
+None of them return the right value in many circumstances.
+getMax, for instance, returns the last item in the list that is bigger than the one before it.  So if your list was
+  {"Xin", "Alison", "Harry"} it would return "Harry".
+  
+You may want to consider your comparison.  You are comparing to the previous item rather than the current maximum.
+
+I think you will also find that your code is simpler when you fix this bug.  
+
+7/10 right now; 9/10 when fixed.
