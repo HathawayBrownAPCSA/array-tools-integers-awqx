@@ -91,37 +91,31 @@ public class StringArrayTools
     */
   public String getMax()
   {
-    String prev = arrayData[0];
     String max = arrayData[0]; 
+    String current = arrayData[1]; 
     for (int i = 1; i < arrayCount; i++)
     {
-      String current = arrayData[i]; 
-      int result = current.compareTo(prev); 
-      if (result >= 0)
-        max = current; 
-      
-      prev = arrayData[i]; 
+      current = arrayData[i]; 
+      if (current.compareTo(max) >= 0)
+        max = current;  
     }
-    return max; 
-  }
+    return max;  
+  } 
   
   /** Find the index of the largest string in lexicographical order
     * @return index of max string
     */
   public int getMaxIndex()
   {
-    String prev = arrayData[0];
-    int max = 0; 
-    for (int i = 1; i < arrayCount; i++)
-    {
-      String current = arrayData[i]; 
-      int result = current.compareTo(prev); 
-      if (result >= 0)
-        max = i; 
-      
-      prev = arrayData[i]; 
+    String current = arrayData[0];
+    String max = getMax(); 
+    for (int i = 0; i < arrayCount; i++)
+    { 
+      current = arrayData[i]; 
+      if (current.equals(max))
+        return i;   
     }
-    return max; 
+    return -1;   
   }
   
   /** Find the min in an integer array in lexicographical order
@@ -129,39 +123,66 @@ public class StringArrayTools
     */
   public String getMin()
   {
-    String prev = arrayData[0];
     String min = arrayData[0]; 
+    String current = arrayData[1]; 
     for (int i = 1; i < arrayCount; i++)
     {
-      String current = arrayData[i]; 
-      int result = current.compareTo(prev); 
-      if (result <= 0)
-        min = current; 
-      
-      prev = arrayData[i]; 
+      current = arrayData[i]; 
+      if (current.compareTo(min) <= 0)
+        min = current;  
     }
     return min;  
   }
   
   /** Find the index of the smallest number in lexicographical order
+    * If there is more than one minimum, it returns the first
     * @return index of min string
     */
   public int getMinIndex()
   {
-    String prev = arrayData[0];
-    int min = 0; 
-    for (int i = 1; i < arrayCount; i++)
-    {
-      String current = arrayData[i]; 
-      int result = current.compareTo(prev); 
-      if (result <= 0)
-        min =  i; 
-      
-      prev = arrayData[i]; 
+    String current = arrayData[0];
+    String min = getMin(); 
+    for (int i = 0; i < arrayCount; i++)
+    { 
+      current = arrayData[i]; 
+      if (current.equals(min))
+        return i;   
     }
-    return min;  
+    return -1; 
   }
- 
+  
+  /** Find the index of the smallest number in lexicographical order
+    * from a given index 
+    * @param start index to start searching
+    * @return index of min string from a starting position
+    */
+  public int getMinIndex(int start)
+  {
+    int pos = start; 
+    for (int i = start; i < arrayCount; i++)
+    {
+      if (arrayData[i].compareTo(arrayData[pos]) < 0)
+        pos = i; 
+    }
+    return pos; 
+  }
+  
+  /** Sorts a string in ascending order 
+   */
+  public void sort()
+  {
+    int pos = 0; 
+    while (pos < arrayCount - 1)
+    {
+      int min = getMinIndex(pos); 
+      String temp = arrayData[min]; 
+      arrayData[min] = arrayData[pos]; 
+      arrayData[pos] = temp; 
+      pos++; //array is sorted from 0 to position
+    }
+    printArray(); 
+  }
+
   
   /** Tests the various arra
     * y tools */
@@ -170,11 +191,13 @@ public class StringArrayTools
     StringArrayTools myArray = new StringArrayTools();
     myArray.fillKeyboard ();
     myArray.printArray ();
-    System.out.papplerintln ("There are " + myArray.getCount() + " entries in the array.");
+    System.out.println ("There are " + myArray.getCount() + " entries in the array.");
     System.out.println ("The largest item (lexicographically) is " + myArray.getMax() ); 
     System.out.println ("The largest item is at index " + myArray.getMaxIndex());
     System.out.println ("The smallest item (lexicographically) is " + myArray.getMin() );
     System.out.println ("The smallest item is at index " + myArray.getMinIndex());
+    System.out.println ("The array sorted in ascending order is: "); 
+    myArray.sort(); 
     
   }
 }
